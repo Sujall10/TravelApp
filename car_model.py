@@ -11,7 +11,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, StackingRegressor
 import xgboost as xgb
 from sklearn.linear_model import Ridge
-from sklearn.model_selection import KFold, cross_val_score
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 import joblib
 import warnings
@@ -23,20 +23,24 @@ load_dotenv()
 DB_url = os.getenv('DB_url')
 engine = create_engine(DB_url)
 
-# Load dataset 
+# Load dataset
 df = pd.read_sql("SELECT * FROM car_rent LIMIT 20000", engine)
+
+# Feature Engineering
 df['month'] = pd.to_datetime(df['Rent_Date']).dt.month
 df['day_of_week'] = pd.to_datetime(df['Rent_Date']).dt.dayofweek
-df.drop(['Rent_Date'], axis=1, inplace=True)
-df.drop(['User_ID', 'TravelCode', 'Pickup_Location', 'Dropoff_Location', 'Rent_ID'], axis=1, inplace=True)
+df.drop(['Rent_Date', 'User_ID', 'TravelCode', 'Pickup_Location', 'Dropoff_Location', 'Rent_ID'], axis=1, inplace=True)
 
 # Define features and target
 X = df.drop(columns=['Total_Rent_Price'])
 y = df['Total_Rent_Price']
 
-# Numerical and categorical features
-num_features = X.select_dtypes(include=['int64', 'float64']).columns
-cat_features = X.select_dtypes(include=['object']).columns
+# Split into Train & Test to Avoid Overfitting
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Identify Numerical & Categorical Features
+num_features = X_train.select_dtypes(include=['int64', 'float64']).columns
+cat_features = X_train.select_dtypes(include=['object']).columns
 
 # Pipelines
 num_transformer = Pipeline([
@@ -54,18 +58,19 @@ preprocessor = ColumnTransformer([
     ('cat', cat_transformer, cat_features)
 ])
 
-X_transformed = preprocessor.fit_transform(X)
+# Transform Train & Test Data
+X_train_transformed = preprocessor.fit_transform(X_train)
+X_test_transformed = preprocessor.transform(X_test)
 
+# Save Preprocessor
+joblib.dump(preprocessor, "preprocessor_Car.pkl")
+print("Preprocessor saved successfully!")
+
+# Get Correct Feature Names
 cat_feature_names = preprocessor.named_transformers_['cat'].named_steps['onehot'].get_feature_names_out(cat_features)
 all_feature_names = np.concatenate([num_features, cat_feature_names])
 
-columns_to_drop = ['Rental_Agency_Budget', 'Fuel_Policy_Partial', 'Rental_Agency_Enterprise', 'Car_BookingStatus_Pending']
-columns_to_keep = [col for col in all_feature_names if col not in columns_to_drop]
-indices_to_keep = [np.where(all_feature_names == col)[0][0] for col in columns_to_keep]
-
-X_filtered = X_transformed[:, indices_to_keep]
-
-# Hyperparameter tuning
+# Hyperparameter Tuning
 def objective(trial, model_name, X_train, y_train):
     params = {}
     if model_name == 'Random Forest':
@@ -106,20 +111,29 @@ def objective(trial, model_name, X_train, y_train):
         }
         model = xgb.XGBRegressor(**params)
 
+    # Perform Cross-Validation Only on Training Data
     scores = cross_val_score(model, X_train, y_train, scoring='neg_mean_squared_error', cv=5, n_jobs=-1)
     return -scores.mean()
 
+# Optimize Models
 best_params = {}
 models = {}
 for model_name in ['Random Forest', 'Gradient Boosting', 'XGBoost']:
     study = optuna.create_study(direction='minimize')
-    study.optimize(lambda trial: objective(trial, model_name, X_filtered, y), n_trials=20)
+    study.optimize(lambda trial: objective(trial, model_name, X_train_transformed, y_train), n_trials=20)
     best_params[model_name] = study.best_params
-    models[model_name] = (RandomForestRegressor if model_name == 'Random Forest' else
-                           GradientBoostingRegressor if model_name == 'Gradient Boosting' else
-                           xgb.XGBRegressor)(**best_params[model_name])
-    models[model_name].fit(X_filtered, y)
 
+    # Initialize and Train Best Model
+    models[model_name] = (
+        RandomForestRegressor if model_name == 'Random Forest' else
+        GradientBoostingRegressor if model_name == 'Gradient Boosting' else
+        xgb.XGBRegressor
+    )(**best_params[model_name])
+
+    # Train Model on Training Data
+    models[model_name].fit(X_train_transformed, y_train)
+
+# Hyperparameter Tuning for Stacking
 def meta_objective(trial):
     alpha = trial.suggest_loguniform('alpha', 0.01, 10.0)
     meta_model = Ridge(alpha=alpha)
@@ -127,33 +141,39 @@ def meta_objective(trial):
         estimators=[('rf', models['Random Forest']), ('gb', models['Gradient Boosting']), ('xgb', models['XGBoost'])],
         final_estimator=meta_model
     )
-    scores = cross_val_score(stacking_model, X_filtered, y, scoring='neg_mean_squared_error', cv=5)
+    scores = cross_val_score(stacking_model, X_train_transformed, y_train, scoring='neg_mean_squared_error', cv=5)
     return -scores.mean()
 
 meta_study = optuna.create_study(direction='minimize')
 meta_study.optimize(meta_objective, n_trials=10)
 
+# Train Final Stacking Model
 best_alpha = meta_study.best_params['alpha']
 stacking_model = StackingRegressor(
     estimators=[('rf', models['Random Forest']), ('gb', models['Gradient Boosting']), ('xgb', models['XGBoost'])],
     final_estimator=Ridge(alpha=best_alpha)
 )
-stacking_model.fit(X_filtered, y)
-print(f"Best alpha for Ridge meta-learner: {best_alpha}")
 
-y_pred = stacking_model.predict(X_filtered)
+stacking_model.fit(X_train_transformed, y_train)
 
-mse = mean_squared_error(y, y_pred)
-rmse = np.sqrt(mse)
-mae = mean_absolute_error(y, y_pred)
-r2 = r2_score(y, y_pred)
+# Evaluate Model on Both Training & Testing Data
+def evaluate_model(name, y_true, y_pred):
+    print(f"\n{name} Performance:")
+    print(f"R² Score: {r2_score(y_true, y_pred):.4f}")
+    print(f"MAE: {mean_absolute_error(y_true, y_pred):.4f}")
+    print(f"RMSE: {np.sqrt(mean_squared_error(y_true, y_pred)):.4f}")
 
-print(f"Mean Squared Error (MSE): {mse:.4f}")
-print(f"Root Mean Squared Error (RMSE): {rmse:.4f}")
-print(f"Mean Absolute Error (MAE): {mae:.4f}")
-print(f"R² Score: {r2:.4f}")
+y_train_pred = stacking_model.predict(X_train_transformed)
+y_test_pred = stacking_model.predict(X_test_transformed)
 
+evaluate_model("Training Set", y_train, y_train_pred)
+evaluate_model("Test Set", y_test, y_test_pred)
 
+# Save model
 joblib.dump(stacking_model, "best_model_Car.pkl")
-joblib.dump(preprocessor, "preprocessor_Car.pkl")
 print("Model saved as best_model_Car.pkl")
+
+
+# joblib.dump(stacking_model, "best_model_Car.pkl")
+# joblib.dump(preprocessor, "preprocessor_Car.pkl")
+# print("Model saved as best_model_Car.pkl")

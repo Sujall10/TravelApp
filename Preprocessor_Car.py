@@ -2,8 +2,12 @@ import joblib
 import pandas as pd
 
 # Load preprocessing pipeline
-preprocessor = joblib.load("preprocessor_Car.pkl")
+preprocessor_Car = joblib.load("preprocessor_Car.pkl")
 
 def preprocess_input(data):
-    df = pd.DataFrame(data)
-    return preprocessor.transform(df)
+    if isinstance(data, dict):  
+        df = pd.DataFrame([data])  
+    else:
+        df = pd.DataFrame(data)  
+    
+    return preprocessor_Car.transform(df)

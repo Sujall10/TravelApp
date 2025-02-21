@@ -11,15 +11,16 @@ from sklearn.model_selection import train_test_split, RandomizedSearchCV, GridSe
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, StackingRegressor
 from xgboost import XGBRegressor
 import optuna
-import tensorflow as tf
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, BatchNormalization
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.regularizers import l2
-from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping
+# import tensorflow as tf
+# from tensorflow.keras.models import Sequential
+# from tensorflow.keras.layers import Dense, Dropout, BatchNormalization
+# from tensorflow.keras.optimizers import Adam
+# from tensorflow.keras.regularizers import l2
+# from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import matplotlib.pyplot as plt
 import seaborn as sns
+import joblib
 
 
 # Load environment variables
@@ -112,6 +113,7 @@ best_xgb_params = study.best_params
 best_xgb = XGBRegressor(**best_xgb_params, random_state=42, seed=42, n_jobs=1)
 best_xgb.fit(X_train, y_train)
 y_pred_xgb = best_xgb.predict(X_test)
+y_xgb = best_xgb.predict(X_train)
 
 # # Feature Importance (XGBoost)
 # feature_importance = best_xgb.feature_importances_
@@ -137,41 +139,42 @@ stacked_model = StackingRegressor(
 )
 stacked_model.fit(X_train, y_train)
 y_pred_stack = stacked_model.predict(X_test)
+y_stacked = stacked_model.predict(X_train)
 
-# Neural Network Model
-def build_nn(units=[128, 64], dropout_rate=0.3, lr=0.01):
-    model = Sequential()
-    model.add(Dense(units[0], activation='relu', kernel_regularizer=l2(0.001), input_shape=(X_train.shape[1],)))
-    model.add(BatchNormalization())
-    model.add(Dropout(dropout_rate))
-    if len(units) > 1:
-        model.add(Dense(units[1], activation='relu', kernel_regularizer=l2(0.001)))
-        model.add(BatchNormalization())
-        model.add(Dropout(dropout_rate))
-    model.add(Dense(1))
-    model.compile(optimizer=Adam(learning_rate=lr), loss='mse', metrics=['mae'])
-    return model
+# # Neural Network Model
+# def build_nn(units=[128, 64], dropout_rate=0.3, lr=0.01):
+#     model = Sequential()
+#     model.add(Dense(units[0], activation='relu', kernel_regularizer=l2(0.001), input_shape=(X_train.shape[1],)))
+#     model.add(BatchNormalization())
+#     model.add(Dropout(dropout_rate))
+#     if len(units) > 1:
+#         model.add(Dense(units[1], activation='relu', kernel_regularizer=l2(0.001)))
+#         model.add(BatchNormalization())
+#         model.add(Dropout(dropout_rate))
+#     model.add(Dense(1))
+#     model.compile(optimizer=Adam(learning_rate=lr), loss='mse', metrics=['mae'])
+#     return model
 
-nn_model = build_nn()
-nn_model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=100, batch_size=32, verbose=1, callbacks=[ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=1e-5), EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)])
+# nn_model = build_nn()
+# nn_model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=100, batch_size=32, verbose=1, callbacks=[ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=1e-5), EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)])
 
 
-# Second Neural Network Model
-nn_model1 = build_nn(units=[64, 32], dropout_rate=0.2, lr=0.005)
-nn_model1.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=100, batch_size=32, verbose=1, 
-              callbacks=[ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=1e-5), 
-                         EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)])
+# # Second Neural Network Model
+# nn_model1 = build_nn(units=[64, 32], dropout_rate=0.2, lr=0.005)
+# nn_model1.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=100, batch_size=32, verbose=1, 
+#               callbacks=[ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=1e-5), 
+#                          EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)])
 
-# Third Neural Network Model
-nn_model2 = build_nn(units=[256, 128], dropout_rate=0.4, lr=0.01)
-nn_model2.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=100, batch_size=32, verbose=1, 
-              callbacks=[ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=1e-5), 
-                         EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)])
+# # Third Neural Network Model
+# nn_model2 = build_nn(units=[256, 128], dropout_rate=0.4, lr=0.01)
+# nn_model2.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=100, batch_size=32, verbose=1, 
+#               callbacks=[ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=5, min_lr=1e-5), 
+#                          EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)])
 
-# Predictions
-y_pred_nn = nn_model.predict(X_test).flatten()
-y_pred_nn1 = nn_model1.predict(X_test).flatten()
-y_pred_nn2 = nn_model2.predict(X_test).flatten()
+# # Predictions
+# y_pred_nn = nn_model.predict(X_test).flatten()
+# y_pred_nn1 = nn_model1.predict(X_test).flatten()
+# y_pred_nn2 = nn_model2.predict(X_test).flatten()
 
 # Model Evaluation
 def evaluate_model(name, y_true, y_pred):
@@ -182,6 +185,9 @@ def evaluate_model(name, y_true, y_pred):
 
 evaluate_model("Optimized XGBoost", y_test, y_pred_xgb)
 evaluate_model("Stacking Model", y_test, y_pred_stack)
-evaluate_model("Neural Network", y_test, y_pred_nn)
-evaluate_model("Neural Network 1", y_test, y_pred_nn1)
-evaluate_model("Neural Network 2", y_test, y_pred_nn2)
+evaluate_model("train XGBoost", y_train, y_xgb)
+evaluate_model("train Stacking Model", y_train, y_stacked)
+
+joblib.dump(best_xgb, "best_model_Flight.pkl")
+joblib.dump(preprocessor, "preprocessor_Flight.pkl")
+print("Model saved as best_model_Flight.pkl")

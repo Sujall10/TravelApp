@@ -1,0 +1,22 @@
+from flask import Flask, request, jsonify, render_template
+import joblib
+import numpy as np
+from Inference_Car import predict_rent_price
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return render_template('index.html')  # Serve the frontend page
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    try:
+        data = request.json['features']  # Get input features from frontend
+        prediction = predict_rent_price([data])  # Predict rent price
+        return jsonify({'prediction': prediction.tolist()})
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+if __name__ == '__main__':
+    app.run(debug=True)
