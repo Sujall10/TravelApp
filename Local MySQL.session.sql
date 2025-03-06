@@ -262,3 +262,24 @@ ALTER TABLE Merged MODIFY Dropoff_Location VARCHAR(60);
 ALTER TABLE Merged DROP PRIMARY KEY;
 
 DROP TABLE Merged
+
+CREATE TABLE Test_Car (
+    Rent_ID INT AUTO_INCREMENT PRIMARY KEY,
+    User_ID INT,  -- Reference to the user table
+    TravelCode INT,  -- Reference to the flights table
+    Rent_Date DATETIME,
+    Pickup_Location VARCHAR(255) NOT NULL,
+    Dropoff_Location VARCHAR(255) NOT NULL,
+    Car_Type VARCHAR(100) NOT NULL,
+    Rental_Agency VARCHAR(100) NOT NULL,
+    Rental_Duration INT NOT NULL,  -- Duration in days
+    Car_Total_Distance DECIMAL(10,2) NOT NULL,  -- Distance in km
+    Fuel_Policy VARCHAR(50) NOT NULL,  -- E.g., Full-to-Full, Prepaid, etc.
+    Car_BookingStatus VARCHAR(50) NOT NULL  -- E.g., Confirmed, Pending, Cancelled
+)
+
+desc Test_Car
+
+select * from car_rent;
+Use traveltrip;
+SELECT * from Test_car;
