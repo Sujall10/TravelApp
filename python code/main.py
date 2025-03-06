@@ -11,12 +11,12 @@ db = mysql.connector.connect(
 cursor = db.cursor()
 
 # passenger_df = pd.read_excel('Datas\\PassengerFINALdataset.xlsx', engine='openpyxl')
-# flight_df = pd.read_excel('Datas\\FlightFINALdataset.xlsx', engine='openpyxl')  # Replace with your flight dataset file path
-# hotel_df = pd.read_excel('Datas\\HotelFINALdataset.xlsx', engine='openpyxl') 
+flightss = pd.read_excel('Datas\\FlightFINALdataset.xlsx', engine='openpyxl')  # Replace with your flight dataset file path
+# hotelss = pd.read_excel('Datas\\HotelFINALdataset.xlsx', engine='openpyxl') 
 # guest_profile_df = pd.read_excel('Datas\\GuestFINALdataset.xlsx', engine='openpyxl') 
 # car_rent_df = pd.read_excel('Datas\\CarFINALdataset.xlsx', engine='openpyxl')  # Replace with your file path
 # merged_df = pd.read_excel('Datas\\MergedFINALdataset.xlsx', engine='openpyxl')
-review_df = pd.read_excel('Datas\\ReviewFINALdataset.xlsx', engine='openpyxl')
+# review_df = pd.read_excel('Datas\\ReviewFINALdataset.xlsx', engine='openpyxl')
 
 # car_rent_df['Check-in'] = pd.to_datetime(car_rent_df['Check-in'], format='%m/%d/%Y', errors='coerce').dt.strftime('%Y-%m-%d')
 
@@ -28,7 +28,7 @@ review_df = pd.read_excel('Datas\\ReviewFINALdataset.xlsx', engine='openpyxl')
 # merged_df.info()
 # car_rent_df['Check-in'] = pd.to_datetime(car_rent_df['Check-in'], format='%d/%m/%Y').dt.strftime('%Y-%m-%d')
 
-# flight_df['Departure_date'] = pd.to_datetime(flight_df['Departure_date'], format='%d/%m/%Y').dt.strftime('%Y-%m-%d')
+flightss['Departure_date'] = pd.to_datetime(flightss['Departure_date'], format='%d/%m/%Y').dt.strftime('%Y-%m-%d')
 
 # hotel_df['Check-in'] = pd.to_datetime(hotel_df['Check-in'], errors='coerce').dt.strftime('%Y-%m-%d')
 
@@ -46,13 +46,13 @@ review_df = pd.read_excel('Datas\\ReviewFINALdataset.xlsx', engine='openpyxl')
 #     """, (row['User_ID'], row['company'], row['Name'], row['gender_x'] ))
 
 # Iterate through the rows of the DataFrame and insert data into MySQL
-# for i, row in flight_df.iterrows():
-#     cursor.execute("""
-#         INSERT INTO flight (travelcode, user_id, departure, arrival, flight_type, flight_price, 
-#                             flight_duration, flight_distance, flight_agency, departure_date)
-#         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-#     """, (row['travelCode'], row['User_ID'], row['Departure'], row['Arrival'], row['flightType'], 
-#           row['Flight_price'], row['Flight_duration'], row['Flight_Distance'], row['Flight_agency'], row['Departure_date']))
+for i, row in flightss.iterrows():
+    cursor.execute("""
+        INSERT INTO Test_flight (travelcode, user_id, departure, arrival, flight_type, 
+                            flight_duration, flight_distance, flight_agency, departure_date)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+    """, (row['travelCode'], row['User_ID'], row['Departure'], row['Arrival'], row['flightType'], 
+          row['Flight_duration'], row['Flight_Distance'], row['Flight_agency'], row['Departure_date']))
 
 # Insert data into 'hotel' table
 # for i, row in hotel_df.iterrows():
@@ -107,18 +107,18 @@ review_df = pd.read_excel('Datas\\ReviewFINALdataset.xlsx', engine='openpyxl')
 # merged_df = merged_df.astype(str).replace("nan", None)
 # print(merged_df.head())  # Check if NaN values exist before inserting
 # print(merged_df.head())
-review_df = review_df.where(pd.notna(review_df), None)
+# review_df = review_df.where(pd.notna(review_df), None)
 # review_df = review_df['overall_rating']
 # review_df['overall_rating'] = pd.to_numeric(review_df['overall_rating'], errors='coerce').fillna(0).astype(int)
 
 
-for i, row in review_df.iterrows():
-    cursor.execute("""
-        INSERT INTO review (travelCode, User_ID,  review_car, review_hotel, review_flights, 
-                            flight_rating, hotel_rating, car_rating, overall_rating)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-    """, (row['travelCode'], row['User_ID'], row['review_car'], row['review_hotel'], 
-          row['review_flights'], row['flight_rating'], row['hotel_rating'], row['car_rating'], row['overall_rating']))
+# for i, row in review_df.iterrows():
+    # cursor.execute("""
+        # INSERT INTO review (travelCode, User_ID,  review_car, review_hotel, review_flights, 
+                            # flight_rating, hotel_rating, car_rating, overall_rating)
+        # VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+    # """, (row['travelCode'], row['User_ID'], row['review_car'], row['review_hotel'], 
+        #   row['review_flights'], row['flight_rating'], row['hotel_rating'], row['car_rating'], row['overall_rating']))
 
 
 db.commit()

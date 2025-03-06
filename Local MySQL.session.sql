@@ -30,7 +30,19 @@ SELECT * from flight;
 DESCRIBE flight;
 USE traveltrip;
 
+CREATE TABLE Test_flight (
+    travelcode INT PRIMARY KEY, 
+    user_id INT,
+    departure VARCHAR(100),
+    arrival VARCHAR(100),
+    flight_type VARCHAR(50),
+    flight_duration INT, 
+    flight_distance INT, 
+    flight_agency VARCHAR(100),
+    departure_date DATETIME
+);
 
+select * from Test_flight
 
 
 
@@ -282,4 +294,4 @@ desc Test_Car
 
 select * from car_rent;
 Use traveltrip;
-SELECT * from Test_car;
+SELECT * from flight
