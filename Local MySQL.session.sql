@@ -299,13 +299,14 @@ SHOW Databases
 Use travelapplication
 
 CREATE TABLE flight_OneWay (
-    travelcode INT PRIMARY KEY, 
-    user_id INT,
-    flight_type VARCHAR(50),
-    flight_agency VARCHAR(100),
-    departure_date DATETIME,
-    departure VARCHAR(100),
-    arrival VARCHAR(100),
+    travelCode INT PRIMARY KEY, 
+    User_ID INT,
+    flightType VARCHAR(50),
+    Flight_agency VARCHAR(100),
+    Departure_date DATETIME,
+    Arrival_Date DATETIME,
+    Departure VARCHAR(100),
+    Arrival VARCHAR(100),
     flight_distance INT,
     flight_duration INT, 
     flight_number  VARCHAR(50),
@@ -333,3 +334,44 @@ MODIFY COLUMN flight_duration TIME;
 
 Drop TABLE passenger;
 Drop TABLE flight_oneway
+
+CREATE TABLE Test_flight (
+    flightType VARCHAR(50),
+    Flight_agency VARCHAR(100),
+    Departure_date DATETIME,
+    Departure VARCHAR(100),
+    Arrival VARCHAR(100), 
+    flight_number  VARCHAR(50)
+);
+
+SELECT * from test_flight
+
+Drop Table test_flight
+
+ALTER TABLE Test_flight 
+MODIFY COLUMN flight_duration TIME;
+
+SELECT * from flight_RoundTrip
+
+
+CREATE TABLE flight_RoundTrip (
+    travelcode INT PRIMARY KEY, 
+    user_id INT,
+    departure VARCHAR(100),
+    arrival VARCHAR(100),
+    departure_date DATETIME,
+    Arrival_Date DATETIME,
+    ReturnDeparture_Date DATETIME,
+    ReturnArrival_Date DATETIME,
+    flight_type VARCHAR(50),
+    flight_agency VARCHAR(100),
+    flight_distance INT,
+    flight_duration INT, 
+    flight_price DECIMAL(10, 2),
+    FOREIGN KEY (user_id) REFERENCES passenger(usercode)
+);
+
+CREATE Table Positive_Reviews (
+    Review str
+)
+select * from positive_reviews
