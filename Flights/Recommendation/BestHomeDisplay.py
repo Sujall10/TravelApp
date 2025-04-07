@@ -1,12 +1,12 @@
 import pandas as pd
 
-def load_data(past_flights_path, future_flights_path, sample_size=5000):
-    # Load past flights
-    df_past = pd.read_excel(past_flights_path)
-    
-    # Load a sample of future flights for efficiency
-    df_future = pd.read_excel(future_flights_path, usecols=["Departure", "Arrival", "Flight_agency", "flightType", "Predicted_Price", "flight_duration"], nrows=sample_size)
-    
+def load_data(past_flights_path, future_flights_path, sample_size=None):
+    df_past = pd.read_excel(past_flights_path, engine='openpyxl')
+    df_future = pd.read_excel(
+        future_flights_path, 
+        usecols=["Departure", "Arrival", "Flight_agency", "flightType", "Predicted_Price", "flight_duration"], 
+        nrows=sample_size
+    )   
     return df_past, df_future
 
 def extract_user_preferences(df_past):
@@ -43,7 +43,7 @@ def recommend_flights(df_future, top_airlines, preferred_flight_type, top_depart
     return recommended_flights
 
 def main():
-    past_flights_path = "notebooks//FinalFlightCTO.xlsx"
+    past_flights_path = "notebooks\\FinalFlightCTO.xlsx"
     future_flights_path = "April2025_May2025FlightDatas.xlsx"
     
     # Load data

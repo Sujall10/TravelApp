@@ -73,4 +73,4 @@ print(f"Testing TF-IDF + Logistic Regression Accuracy: {accuracy:.4f}")
 print(f"Training TF-IDF + Logistic Regression Accuracy: {acc:.4f}")
 
 # Save the pipeline for future use
-joblib.dump(pipeline, 'Sentiment_Analysis_Pipeline.pkl')
+# joblib.dump(pipeline, 'Sentiment_Analysis_Pipeline.pkl')

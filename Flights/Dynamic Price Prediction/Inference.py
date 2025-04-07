@@ -11,7 +11,7 @@ load_dotenv()
 DB_URL = os.getenv("a")
 
 # Load trained model
-pipeline = joblib.load("price_prediction_pipeline.pkl")  
+pipeline = joblib.load("Flights\\PKL folders\\price_prediction_pipeline.pkl")  
 
 df_loc = pd.read_excel('notebooks\\AirportCoordinates.xlsx')
 # Establish database connection
@@ -102,9 +102,9 @@ if __name__ == "__main__":
         # Predict prices
         flight_data["Predicted_Price"] = predict_flight_price(feature_columns)
 
-        flight_data.to_excel('April2025_May2025FlightDatas.xlsx', index=False)
-        from IPython.display import FileLink
-        FileLink('April2025_May2025FlightDatas.xlsx')
+        # flight_data.to_excel('April2025_May2025FlightDatas.xlsx', index=False)
+        # from IPython.display import FileLink
+        # FileLink('April2025_May2025FlightDatas.xlsx')
         
         print(flight_data)
     else:

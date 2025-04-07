@@ -1,0 +1,201 @@
+userID,issueType,resolutionStatus,Date,supervisorID
+776,Billing Issue,Resolved,12/24/2020,1481
+94,Service Quality,Pending,02/11/2021,1685
+308,Check-in Delay,Escalated,06/03/2021,1563
+487,Check-in Delay,Pending,10/15/2020,1182
+1276,Billing Issue,Escalated,06/25/2020,1098
+95,Booking Error,Escalated,12/19/2019,1823
+358,Cancellation,Resolved,09/24/2020,1217
+851,Service Quality,Resolved,05/26/2022,1076
+1115,Cancellation,Pending,03/05/2020,1048
+481,Check-in Delay,Pending,10/24/2019,1170
+1146,Room Cleanliness,Escalated,05/28/2020,1243
+1184,Cancellation,Pending,04/09/2020,1617
+230,Booking Error,Resolved,08/26/2021,1113
+344,Booking Error,Escalated,08/05/2021,1640
+108,Service Quality,Resolved,05/12/2022,1331
+228,Cancellation,Resolved,11/12/2020,1181
+212,Room Cleanliness,Pending,12/17/2020,1489
+985,Room Cleanliness,Resolved,03/05/2020,1072
+972,Check-in Delay,Pending,01/21/2021,1782
+652,Cancellation,Escalated,03/19/2020,1236
+171,Cancellation,Escalated,11/10/2022,1937
+1236,Room Cleanliness,Pending,06/03/2021,1259
+1312,Cancellation,Pending,08/19/2021,1270
+343,Room Cleanliness,Pending,03/03/2022,1005
+1218,Booking Error,Pending,07/15/2021,1624
+1038,Booking Error,Resolved,04/16/2020,1134
+716,Check-in Delay,Resolved,07/28/2022,1492
+1030,Room Cleanliness,Pending,11/28/2019,1521
+806,Booking Error,Pending,09/29/2022,1330
+101,Service Quality,Pending,06/11/2020,1034
+1317,Room Cleanliness,Pending,08/05/2021,1825
+1132,Service Quality,Escalated,06/03/2021,1801
+658,Cancellation,Resolved,07/16/2020,1112
+1204,Service Quality,Escalated,06/10/2021,1220
+248,Billing Issue,Escalated,08/06/2020,1272
+838,Check-in Delay,Pending,05/14/2020,1620
+917,Booking Error,Escalated,08/05/2021,1623
+551,Cancellation,Escalated,05/19/2022,1491
+919,Service Quality,Escalated,07/16/2020,1242
+363,Cancellation,Escalated,12/24/2020,1258
+272,Service Quality,Escalated,03/04/2021,1939
+1143,Cancellation,Resolved,07/02/2020,1602
+399,Check-in Delay,Pending,08/20/2020,1403
+256,Billing Issue,Escalated,07/21/2022,1717
+237,Room Cleanliness,Resolved,12/19/2019,1815
+874,Cancellation,Pending,04/16/2020,1593
+870,Cancellation,Resolved,04/14/2022,1814
+1205,Check-in Delay,Resolved,08/18/2022,1982
+286,Billing Issue,Pending,10/10/2019,1950
+327,Room Cleanliness,Escalated,10/31/2019,1048
+113,Booking Error,Escalated,11/12/2020,1680
+1182,Cancellation,Resolved,10/10/2019,1460
+889,Billing Issue,Resolved,08/26/2021,1137
+643,Billing Issue,Pending,12/17/2020,1261
+1030,Booking Error,Pending,03/26/2020,1523
+1126,Service Quality,Pending,10/24/2019,1900
+102,Booking Error,Escalated,07/09/2020,1032
+965,Service Quality,Escalated,01/05/2023,1507
+1237,Check-in Delay,Resolved,12/05/2019,1506
+48,Check-in Delay,Pending,02/04/2021,1709
+1263,Room Cleanliness,Escalated,06/24/2021,1315
+1086,Billing Issue,Resolved,05/14/2020,1919
+641,Cancellation,Resolved,01/13/2022,1748
+1285,Billing Issue,Resolved,07/29/2021,1220
+497,Booking Error,Resolved,10/22/2020,1704
+139,Room Cleanliness,Escalated,04/28/2022,1165
+690,Billing Issue,Pending,11/14/2019,1536
+574,Booking Error,Pending,09/03/2020,1440
+226,Check-in Delay,Resolved,03/10/2022,1363
+66,Room Cleanliness,Resolved,02/13/2020,1625
+558,Cancellation,Resolved,09/30/2021,1067
+98,Room Cleanliness,Pending,02/13/2020,1739
+740,Service Quality,Resolved,10/10/2019,1861
+771,Room Cleanliness,Pending,10/17/2019,1394
+802,Cancellation,Pending,05/07/2020,1007
+797,Room Cleanliness,Pending,09/30/2021,1718
+82,Cancellation,Resolved,02/06/2020,1523
+107,Cancellation,Pending,04/06/2023,1147
+859,Check-in Delay,Escalated,02/13/2020,1201
+1082,Room Cleanliness,Escalated,12/05/2019,1011
+153,Room Cleanliness,Escalated,07/01/2021,1332
+681,Cancellation,Pending,05/05/2022,1209
+269,Cancellation,Escalated,10/01/2020,1641
+656,Booking Error,Escalated,01/16/2020,1734
+801,Cancellation,Escalated,10/06/2022,1334
+985,Billing Issue,Resolved,03/09/2023,1314
+330,Service Quality,Escalated,07/23/2020,1186
+1039,Cancellation,Escalated,03/26/2020,1107
+791,Service Quality,Resolved,05/13/2021,1767
+305,Booking Error,Escalated,09/30/2021,1264
+1045,Billing Issue,Resolved,05/12/2022,1161
+511,Check-in Delay,Pending,11/26/2020,1343
+71,Service Quality,Escalated,04/14/2022,1988
+488,Service Quality,Escalated,04/30/2020,1478
+10,Check-in Delay,Escalated,02/20/2020,1256
+913,Booking Error,Escalated,09/09/2021,1818
+1044,Room Cleanliness,Escalated,09/17/2020,1176
+1336,Room Cleanliness,Resolved,08/13/2020,1425
+1151,Room Cleanliness,Pending,08/12/2021,1108
+1330,Check-in Delay,Resolved,03/12/2020,1325
+656,Check-in Delay,Pending,11/14/2019,1789
+894,Booking Error,Resolved,05/12/2022,1372
+823,Booking Error,Escalated,10/08/2020,1564
+862,Cancellation,Escalated,10/22/2020,1673
+515,Booking Error,Pending,01/23/2020,1460
+95,Check-in Delay,Escalated,09/26/2019,1065
+222,Billing Issue,Resolved,10/20/2022,1253
+1196,Room Cleanliness,Pending,04/09/2020,1343
+510,Room Cleanliness,Resolved,08/20/2020,1907
+743,Room Cleanliness,Resolved,10/10/2019,1194
+308,Check-in Delay,Resolved,04/07/2022,1186
+1075,Booking Error,Resolved,02/06/2020,1594
+1157,Billing Issue,Resolved,06/24/2021,1174
+1068,Service Quality,Resolved,11/21/2019,1278
+370,Cancellation,Resolved,08/18/2022,1273
+714,Billing Issue,Pending,08/19/2021,1174
+309,Billing Issue,Resolved,03/04/2021,1135
+210,Booking Error,Resolved,11/26/2020,1846
+163,Booking Error,Resolved,01/02/2020,1572
+724,Service Quality,Resolved,10/03/2019,1741
+650,Booking Error,Resolved,04/02/2020,1139
+401,Billing Issue,Pending,02/25/2021,1659
+493,Service Quality,Escalated,04/08/2021,1634
+714,Billing Issue,Escalated,04/16/2020,1679
+151,Check-in Delay,Resolved,06/04/2020,1537
+1242,Service Quality,Escalated,01/07/2021,1107
+1185,Service Quality,Escalated,09/26/2019,1081
+289,Cancellation,Resolved,09/17/2020,1299
+52,Service Quality,Resolved,03/31/2022,1213
+765,Service Quality,Escalated,03/16/2023,1434
+504,Booking Error,Resolved,12/09/2021,1268
+203,Cancellation,Pending,04/22/2021,1759
+1290,Booking Error,Pending,09/23/2021,1688
+57,Cancellation,Pending,04/23/2020,1233
+1074,Cancellation,Pending,01/09/2020,1979
+330,Check-in Delay,Escalated,10/15/2020,1853
+626,Cancellation,Escalated,06/11/2020,1949
+62,Cancellation,Resolved,04/08/2021,1483
+1021,Service Quality,Pending,03/12/2020,1092
+726,Billing Issue,Pending,06/23/2022,1047
+776,Room Cleanliness,Pending,02/11/2021,1231
+945,Service Quality,Pending,01/27/2022,1675
+36,Cancellation,Pending,10/07/2021,1455
+1279,Check-in Delay,Pending,06/11/2020,1753
+844,Room Cleanliness,Pending,05/05/2022,1903
+369,Booking Error,Escalated,01/27/2022,1193
+119,Room Cleanliness,Pending,10/27/2022,1364
+1080,Check-in Delay,Resolved,09/15/2022,1541
+340,Room Cleanliness,Pending,12/19/2019,1084
+212,Booking Error,Resolved,03/04/2021,1200
+376,Room Cleanliness,Pending,03/04/2021,1810
+1126,Service Quality,Pending,02/27/2020,1932
+318,Billing Issue,Resolved,06/04/2020,1721
+541,Booking Error,Escalated,02/27/2020,1212
+631,Room Cleanliness,Resolved,06/09/2022,1513
+1014,Check-in Delay,Pending,09/24/2020,1131
+1123,Service Quality,Escalated,11/18/2021,1120
+746,Billing Issue,Resolved,08/18/2022,1403
+349,Booking Error,Pending,07/09/2020,1870
+977,Service Quality,Resolved,04/14/2022,1561
+664,Service Quality,Resolved,06/11/2020,1198
+40,Billing Issue,Pending,02/11/2021,1196
+1318,Check-in Delay,Escalated,09/08/2022,1906
+725,Cancellation,Pending,03/11/2021,1742
+511,Room Cleanliness,Escalated,05/14/2020,1587
+386,Room Cleanliness,Pending,10/03/2019,1234
+865,Booking Error,Escalated,11/05/2020,1059
+921,Cancellation,Resolved,12/05/2019,1398
+360,Cancellation,Escalated,02/09/2023,1210
+427,Booking Error,Pending,06/04/2020,1861
+250,Billing Issue,Escalated,11/03/2022,1410
+498,Booking Error,Resolved,04/16/2020,1375
+377,Check-in Delay,Pending,01/07/2021,1094
+851,Cancellation,Resolved,06/16/2022,1202
+81,Cancellation,Pending,12/03/2020,1715
+148,Service Quality,Resolved,10/21/2021,1190
+625,Billing Issue,Escalated,03/11/2021,1636
+241,Service Quality,Escalated,02/17/2022,1175
+250,Cancellation,Resolved,09/26/2019,1874
+519,Booking Error,Escalated,04/09/2020,1096
+774,Room Cleanliness,Resolved,07/23/2020,1763
+482,Service Quality,Escalated,02/27/2020,1678
+146,Billing Issue,Resolved,01/21/2021,1956
+279,Booking Error,Escalated,05/20/2021,1867
+1207,Cancellation,Pending,01/21/2021,1297
+60,Service Quality,Escalated,10/01/2020,1043
+1078,Cancellation,Escalated,11/28/2019,1867
+948,Service Quality,Escalated,04/16/2020,1994
+674,Service Quality,Pending,01/21/2021,1338
+423,Booking Error,Resolved,10/29/2020,1176
+1247,Billing Issue,Escalated,02/20/2020,1961
+434,Check-in Delay,Escalated,02/10/2022,1295
+563,Cancellation,Escalated,10/22/2020,1149
+406,Billing Issue,Pending,07/14/2022,1919
+122,Check-in Delay,Escalated,10/15/2020,1139
+408,Booking Error,Pending,04/01/2021,1607
+987,Booking Error,Pending,03/19/2020,1659
+822,Billing Issue,Pending,05/13/2021,1981
+875,Check-in Delay,Pending,07/30/2020,1242
+1322,Billing Issue,Escalated,01/14/2021,1717
